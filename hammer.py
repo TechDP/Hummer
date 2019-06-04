@@ -6,16 +6,18 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from GenerateRandomNumbers_UI import GenerateRandom
 from BinToString_UI import BinToString
 from DeleteBlankLine_UI import DeleteBlankLine
+from StringToBin_UI import StringToBin
 
 class Hammer(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
     def initUI(self):
-        self.resize(900, 500)
-        # self.setFixedSize(900, 500)
-        # self.setMinimumHeight(500)
-        # self.setMinimumWidth(900)
+        # self.resize(900, 500)
+        # 设置窗口大小 且不可拖动改变
+        self.setFixedSize(900, 500)
+        self.setMinimumHeight(500)
+        self.setMinimumWidth(900)
         self.setWindowTitle("Hammer")
         self.mainUI()
         
@@ -28,11 +30,6 @@ class Hammer(QtWidgets.QWidget):
 
         # 创建右侧 widget
         self.RightStack = QtWidgets.QStackedWidget(self)
-
-        # 左侧列表中增加元素
-        self.leftlist.insertItem(0, "获得随机数")
-        self.leftlist.insertItem(1, "bin转换为str数据")
-        self.leftlist.insertItem(2, "删除空白行")
 
         # 实例化随机数类
         self.GenerateRandom = GenerateRandom()
@@ -52,9 +49,22 @@ class Hammer(QtWidgets.QWidget):
         self.StackDeleteBlankLine = QtWidgets.QWidget()
         self.StackDeleteBlankLine.setLayout(self.DeleteBlankLine.DeleteBlankLineUI())
 
-        # 右侧列表中增加元素
+        self.StringToBin = StringToBin()
+        self.StackStringToBin = QtWidgets.QWidget()
+        self.StackStringToBin.setLayout(self.StringToBin.BinToStringUI())
+
+
+        # 左侧列表和右侧列表中增加元素
+        self.leftlist.insertItem(0, "string数据转换为bin")
+        self.RightStack.insertWidget(0, self.StackStringToBin)
+
+        self.leftlist.addItem("获得随机数")
         self.RightStack.addWidget(self.stackRandom)
+        
+        self.leftlist.addItem("bin转换为str数据")
         self.RightStack.addWidget(self.StackBinToString)
+
+        self.leftlist.addItem("删除空白行")
         self.RightStack.addWidget(self.StackDeleteBlankLine)
         
 
