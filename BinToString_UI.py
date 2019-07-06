@@ -3,6 +3,7 @@
 
 import sys
 import os
+import json
 from PyQt5 import QtWidgets
 
 def FormatListToString(DataList):
@@ -26,7 +27,16 @@ class BinToString(QtWidgets.QWidget):
 
     def BinToStringUI(self):
         # 获取当前程序文件位置
-        self.cwd = os.getcwd()
+        with open("config.json", 'r') as FileRead:
+            ConfigData = FileRead.readline()
+            if ConfigData:
+                if json.loads(ConfigData)['BinToStringCWD']:
+                    self.cwd = json.loads(ConfigData)['BinToStringCWD']
+                else:
+                    self.cwd = os.getcwd()
+            else:
+                self.cwd = os.getcwd()
+        print(self.cwd)
 
         # 创建一个按钮，点击后触发 chooseFile 槽
         self.ButtonChooseFile = QtWidgets.QPushButton(self)
@@ -84,7 +94,11 @@ class BinToString(QtWidgets.QWidget):
         if self.FileNameSelected == "":
             print("\n取消选择")
             return
-
+        with open("config.json", 'w') as FileWrite:
+            tmp = {}
+            tmp["BinToStringCWD"] = self.FileNameSelected
+            print("write json data:", tmp["BinToStringCWD"])
+            FileWrite.write(json.dumps(tmp))
         print("\n你选择的文件为:")
         print(self.FileNameSelected)
         print("文件筛选器类型: ",filetype)
