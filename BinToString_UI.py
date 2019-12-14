@@ -104,7 +104,7 @@ class BinToString(QtWidgets.QWidget):
         print("文件筛选器类型: ",filetype)
         self.LineEditShowFilePath.setText(self.FileNameSelected)
         self.ReadBinFile()
-        self.TextEditShowFileData.setText(FormatListToString(self.FileData))
+        # self.TextEditShowFileData.setText(FormatListToString(self.FileData))
         self.LableShowFileCounter.setText("字节数：" + str(self.FileDataCounter))
 
     def SlotBottonWriteData(self):
